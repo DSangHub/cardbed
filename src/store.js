@@ -1,9 +1,14 @@
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { randomUUID } = require("crypto");
 const uuid = () => randomUUID();
 
-const DATA_FILE = path.join(__dirname, "..", "data", "db.json");
+// Vercel functions have a read-only deployment filesystem. Use /tmp there so
+// the demo can run without crashing; production persistence should use a DB.
+const DATA_FILE = process.env.VERCEL
+  ? path.join(os.tmpdir(), "cardbed-db.json")
+  : path.join(__dirname, "..", "data", "db.json");
 
 const empty = () => ({
   users: [],
