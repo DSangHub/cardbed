@@ -1,0 +1,8 @@
+{
+  "name": "cardbed",
+  "version": "1.0.0",
+  "description": "A bed for your cards — sleep, alarm, snooze, and stock-style limit buys",
+  "main": "src/server.js",
+  "scripts": { "start": "node src/server.js" },
+  "engines": { "node": ">=18" }
+}
