@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CardBed — tuck the cards in</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="night">
+    <header>
+      <div class="brand">
+        <div class="logo">🛏️</div>
+        <div>
+          <h1>CardBed</h1>
+          <p class="tag">A bed for your cards. Limits like stocks. Alarms at your hour.</p>
+        </div>
+      </div>
+      <div class="pills" id="health"></div>
+    </header>
+
+    <section class="alarms" id="alarms"></section>
+
+    <main>
+      <section class="col">
+        <div class="hd">
+          <h2>Cards</h2>
+          <button id="addCard">Tuck a card in</button>
+        </div>
+        <div id="cards" class="stack"></div>
+      </section>
+
+      <section class="col wide">
+        <div class="hd">
+          <h2>Market / saved items</h2>
+          <div class="actions">
+            <button id="scanBtn">Scan barcode</button>
+            <button id="tick" class="ghost">Simulate tick</button>
+          </div>
+        </div>
+        <div id="products" class="grid"></div>
+      </section>
+    </main>
+
+    <section>
+      <div class="hd"><h2>Working orders</h2></div>
+      <div id="orders" class="stack"></div>
+    </section>
+
+    <section>
+      <div class="hd"><h2>Ledger</h2></div>
+      <div id="events" class="ledger"></div>
+    </section>
+  </div>
+
+  <dialog id="scanModal">
+    <div class="scan-head">
+      <h3>Scan a shelf tag</h3>
+      <p class="thesis">Point the camera at a UPC/EAN, snap a photo, or type the digits. CardBed arms a price-drop alarm. Snooze works the same as any other alarm.</p>
+    </div>
+    <div class="viewfinder">
+      <video id="scanVideo" playsinline autoplay muted></video>
+      <canvas id="scanCanvas" hidden></canvas>
+      <div class="reticle"></div>
+    </div>
+    <p class="hint" id="scanStatus">Camera idle</p>
+    <div class="row">
+      <label>UPC / EAN
+        <input id="scanManual" inputmode="numeric" placeholder="847447000424" />
+      </label>
+      <label>After scan
+        <select id="scanArm">
+          <option value="alert_only">Alarm only (Y/N on dips)</option>
+          <option value="limit">Limit — auto-buy in band</option>
+          <option value="">Save item, don’t arm</option>
+        </select>
+      </label>
+    </div>
+    <label>Card for the alarm
+      <select id="scanCard"></select>
+    </label>
+    <menu>
+      <button type="button" id="scanLive">Open camera</button>
+      <button type="button" id="scanSnap">Capture frame</button>
+      <label class="filebtn">Photo
+        <input id="scanFile" type="file" accept="image/*" capture="environment" hidden />
+      </label>
+      <button type="button" id="scanLookup">Look up</button>
+      <button type="button" id="scanClose">Close</button>
+    </menu>
+    <p class="meta" id="scanHints"></p>
+  </dialog>
+
+  <dialog id="orderModal">
+    <form id="orderForm" method="dialog">
+      <h3 id="orderTitle">Place limit</h3>
+      <p id="orderThesis" class="thesis"></p>
+      <label>Card
+        <select name="cardId" required></select>
+      </label>
+      <label>Order type
+        <select name="type">
+          <option value="limit">Limit — auto-buy inside band</option>
+          <option value="alert_only">Alert only — always Y/N</option>
+        </select>
+      </label>
+      <div class="row">
+        <label>Limit $
+          <input name="limit" type="number" step="0.01" required />
+        </label>
+        <label>Band ± $
+          <input name="band" type="number" step="0.01" value="2.00" required />
+        </label>
+      </div>
+      <p class="hint" id="orderHint"></p>
+      <menu>
+        <button value="cancel" type="button" id="cancelOrder">Close</button>
+        <button value="ok" id="submitOrder">Work the order</button>
+      </menu>
+      <input type="hidden" name="productId" />
+    </form>
+  </dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>
