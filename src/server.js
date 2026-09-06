@@ -21,7 +21,7 @@ const server = http.createServer(async (req, res) => {
 
   try {
     const url = new URL(req.url, config.appUrl);
-    if (url.pathname.startsWith("/api/")) {
+    if (url.pathname === "/api" || url.pathname.startsWith("/api/")) {
       const body = req.method === "POST" ? await readBody(req) : {};
       await handleApi(req, res, url, body);
       return;
